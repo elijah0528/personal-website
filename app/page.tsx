@@ -25,7 +25,6 @@ export default function Home() {
           {/* Your bio */}
           <div className="mt-8 space-y-4">
             <div className="mt-4">
-              Message me on Twitter!
             </div>
           </div>
         </div>
