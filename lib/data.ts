@@ -42,43 +42,37 @@ const projects = [
     year: "2024",
     description:
       "Building AI code generation agents to make developers lives easier. Demo recieved 200,000 views on all platforms",
-    link: "https://frenter.com",
+    link: "https://x.com/ElijahKurien/status/1793347951433261080",
   },
   {
     title: "Self-driving Car",
     year: "2024",
     description:
-      "Built",
-    link: "https://frenter.com",
+      "Built an autonomous car to delivery food across uWaterloo's campus. Created PID controls using RL and developed a world-modelling system for real-time correction",
+    link: "https://github.com/rajansagarwal/self-driving-tank",
   },
   {
     title: "Burrow",
     year: "2024",
     description:
-      "Elit et minim magna consequat ullamco proident nisi ullamco consequat reprehenderit mollit laboris.",
-    link: "https://frenter.com",
+      "Built a learning platform for students to create courses and knowledge graphs from anything they want. Received 700 signups on the waitlist.",
+    link: "https://www.youtube.com/live/xQFHZhmiJuA?feature=shared&t=2050",
   },
   {
     title: "AI Companion",
     year: "2024",
     description:
-      "Elit et minim magna consequat ullamco proident nisi ullamco consequat reprehenderit mollit laboris.",
-    link: "https://frenter.com",
+      "Built AI companions to emulate loved ones for seniors in retirement homes. Won $500 from Center for Brain Health Innovation",
+    link: "https://drive.google.com/file/d/12wAsCLiTcBHYDcunG6ZCbajf5Xu3zGoF/view?usp=sharing",
   },
   {
     title: "Prosthetic Arm",
     year: "2024",
     description:
-      "Elit et minim magna consequat ullamco proident nisi ullamco consequat reprehenderit mollit laboris.",
-    link: "https://frenter.com",
+      "Built a 21 DOF Prosthetic arm and a Soft-actor critic model to train it to complete dexterous movements",
+    link: "https://www.linkedin.com/posts/activity-7134984078012936193-FwSY",
   },
-  {
-    title: "Prosthetic Arm",
-    year: "2024",
-    description:
-      "Elit et minim magna consequat ullamco proident nisi ullamco consequat reprehenderit mollit laboris.",
-    link: "https://frenter.com",
-  },
+
 ];
 
 const papers = [
@@ -86,13 +80,13 @@ const papers = [
     title:
       "Approximating the Navier-Stokes Equations with the Explicit Finite Difference Method to Solve the Lid-driven Cavity Flow Problem",
     year: "2023",
-    link: "https://frenter.com",
+    link: "https://www.onlinescientificresearch.com/abstract/approximating-the-navierstokes-equations-with-the-explicitnbspfinite-difference-method-to-solve-the-liddriven-cavity-flownbspprobl-2662.html",
   },
   {
     title:
       "Evaluation of Brain-Derived Neurotrophic Factor Nano Therapies to Treat Alzheimer's Diseases",
     year: "2023",
-    link: "https://frenter.com",
+    link: "https://www.semanticscholar.org/paper/Evaluation-of-Brain-Derived-Neurotrophic-Factor-to-Kurien/73673ea26f6273d9b52f18867e4ffbceb7051a58",
   },
 ];
 
