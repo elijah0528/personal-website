@@ -12,8 +12,8 @@ export default function WorkItem({
   link: string;
 }) {
   return (
-    <div className="flex items-start justify-between">
-      <div className="flex w-96 flex-col items-start">
+    <div className="grid grid-cols-3 items-start justify-between gap-x-8">
+      <div className="col-span-1 flex w-96 flex-col items-start">
         <a
           href={link}
           target="_blank"
@@ -24,7 +24,9 @@ export default function WorkItem({
         </a>
         <div>{year}</div>
       </div>
-      <div>{description}</div>
+      <div className="col-span-2">
+        {description}
+      </div>
     </div>
   );
 }

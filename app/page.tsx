@@ -1,3 +1,4 @@
+
 import Button from "@/components/button";
 import PaperItem from "@/components/paper";
 import WorkItem from "@/components/work";
@@ -16,18 +17,15 @@ export default function Home() {
         <div>
           {/* Name + title */}
           <div className="text-xl text-white">Elijah Kurien</div>
-          <div className="text-xl">Building AI Agents and Robotics</div>
+          <div className="text-md">Building AI Agents and Robotics</div>
+          <div className="text-md">
+            Software Engineering @ University of Waterloo
+          </div>
 
           {/* Your bio */}
           <div className="mt-8 space-y-4">
-            <div className="">
-              Ad aute Lorem ut sint deserunt aliqua laborum et amet veniam.
-              Ipsum in est sit commodo nisi fugiat id laboris consequat sint
-              aliqua. Amet labore est ullamco mollit consequat duis ad eu
-              cupidatat ad.
-            </div>
             <div className="mt-4">
-              Veniam anim veniam cupidatat Lorem reprehenderit.
+              Message me on Twitter!
             </div>
           </div>
         </div>
@@ -69,7 +67,7 @@ export default function Home() {
         </div>
 
         {/* Work experiences */}
-        <div className="mt-24">
+        <div className="mt-16">
           <div className="flex items-center text-xl text-white">
             <Briefcase02Icon size={20} className="mr-2" />
             Work
