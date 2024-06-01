@@ -16,7 +16,7 @@ export default function Home() {
         <div>
           {/* Name + title */}
           <div className="text-xl text-white">Elijah Kurien</div>
-          <div className="text-xl">ML Engineer</div>
+          <div className="text-xl">Building AI Agents and Robotics</div>
 
           {/* Your bio */}
           <div className="mt-8 space-y-4">
