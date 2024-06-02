@@ -1,4 +1,5 @@
 
+"use client";
 import Button from "@/components/button";
 import PaperItem from "@/components/paper";
 import WorkItem from "@/components/work";
@@ -9,12 +10,49 @@ import {
   CodeFolderIcon,
   GoogleDocIcon,
 } from "hugeicons-react";
+import { animate, motion } from "framer-motion"
+
+// Define your animation variants
+const containerVariants = {
+  hidden: { opacity: 0, y: '-2.5vh' },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'easeInOut',
+      duration: 1.75
+    }
+  }
+};
+
+const childVariants = {
+  hidden: { opacity: 0 },
+  show: { 
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      type: 'easeInOut',
+      staggerChildren: 0.5
+    }
+    
+  }
+};
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen w-screen justify-center px-12 py-48">
-      <div className="w-full max-w-screen-sm text-lg leading-snug text-zinc-500">
-        <div>
+    <motion.main
+      className="flex min-h-screen w-screen justify-center px-12 py-48"
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div
+        className="w-full max-w-screen-sm text-lg leading-snug text-zinc-500"
+        variants={childVariants}
+      >
+        <motion.div
+        variants={childVariants}
+        >
           {/* Name + title */}
           <div className="text-xl text-white">Elijah Kurien</div>
           <div className="text-md">Building AI Agents and Robotics</div>
@@ -27,10 +65,10 @@ export default function Home() {
             <div className="mt-4">
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Social media links */}
-        <div className="mt-8 flex w-full flex-wrap items-center text-base">
+        <motion.div variants={childVariants} className="mt-8 flex w-full flex-wrap items-center text-base">
           <a href="https://twitter.com/elijahkurien" target="_blank">
             <Button
               className="mb-2 mr-2"
@@ -63,10 +101,10 @@ export default function Home() {
               Email
             </Button>
           </a>
-        </div>
+        </motion.div>
 
         {/* Work experiences */}
-        <div className="mt-16">
+        <motion.div variants={childVariants} className="mt-16">
           <div className="flex items-center text-xl text-white">
             <Briefcase02Icon size={20} className="mr-2" />
             Work
@@ -82,10 +120,10 @@ export default function Home() {
               />
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Projects */}
-        <div className="mt-24">
+        <motion.div variants={childVariants} className="mt-24">
           <div className="flex items-center text-xl text-white">
             <CodeFolderIcon size={20} className="mr-2" />
             Projects
@@ -101,10 +139,10 @@ export default function Home() {
               />
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Papers */}
-        <div className="mt-24">
+        <motion.div variants={childVariants} className="mt-24">
           <div className="flex items-center text-xl text-white">
             <GoogleDocIcon size={20} className="mr-2" />
             Peer-Reviewed Papers
@@ -119,8 +157,8 @@ export default function Home() {
               />
             ))}
           </div>
-        </div>
-      </div>
-    </main>
+        </motion.div>
+      </motion.div>
+    </motion.main>
   );
 }
