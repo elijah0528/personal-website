@@ -41,13 +41,13 @@ const childVariants = {
 export default function Home() {
   return (
     <motion.main
-      className="flex min-h-screen w-screen justify-center px-12 py-48"
+      className="flex min-h-screen w-screen justify-center px-6 py-48"
       variants={containerVariants}
       initial="hidden"
       animate="show"
     >
       <motion.div
-        className="w-full max-w-screen-sm text-lg leading-snug text-zinc-500"
+        className="w-full max-w-screen-md text-lg leading-snug text-zinc-500"
         variants={childVariants}
       >
         <motion.div
@@ -109,7 +109,7 @@ export default function Home() {
             <Briefcase02Icon size={20} className="mr-2" />
             Work
           </div>
-          <div className="mt-8 space-y-8">
+          <div className="mt-8 space-y-8 overflow-auto">
             {data.work.map((work) => (
               <WorkItem
                 key={work.title}

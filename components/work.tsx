@@ -13,7 +13,7 @@ export default function WorkItem({
 }) {
   return (
     <div className="grid grid-cols-3 items-start justify-between gap-x-8">
-      <div className="col-span-1 flex w-96 flex-col items-start">
+      <div className="col-span-1 flex flex-col items-start overflow-wrap ">
         <a
           href={link}
           target="_blank"
