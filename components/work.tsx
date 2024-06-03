@@ -1,4 +1,6 @@
+"use client";
 import { ArrowUpRight01Icon } from "hugeicons-react";
+import Link from 'next/link';
 
 export default function WorkItem({
   title,
@@ -10,18 +12,17 @@ export default function WorkItem({
   year: string;
   description: string;
   link: string;
-}) {
+}) 
+{
   return (
     <div className="grid grid-cols-3 items-start justify-between gap-x-8">
       <div className="col-span-1 flex flex-col items-start overflow-wrap ">
-        <a
-          href={link}
-          target="_blank"
-          className="flex items-center text-white transition-all hover:text-zinc-400"
-        >
+        <Link href={`work/${title.toLowerCase()}`}
+              className="flex items-center text-white transition-all hover:text-zinc-400"
+                  >
           {title}
           <ArrowUpRight01Icon size={20} className="ml-1" />
-        </a>
+        </Link>
         <div>{year}</div>
       </div>
       <div className="col-span-2">
