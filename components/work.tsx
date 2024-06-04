@@ -17,7 +17,7 @@ export default function WorkItem({
   return (
     <div className="grid grid-cols-3 items-start justify-between gap-x-8">
       <div className="col-span-1 flex flex-col items-start overflow-wrap ">
-        <Link href={`work/${title.toLowerCase()}`}
+        <Link href={`work/${title.toLowerCase().replace(/\s+/g, '-')}`}
               className="flex items-center text-white transition-all hover:text-zinc-400"
                   >
           {title}
