@@ -5,11 +5,18 @@
 
 html {
   scroll-behavior: smooth;
-  cursor: none;
 }
 
-* {
-  cursor: none !important;
+a,
+button {
+  cursor: pointer;
+}
+
+/* Enhanced smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @theme inline {

@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="" style={{ cursor: "none", scrollBehavior: "smooth" }}>
-      <body className={`${dmSans.variable} font-sans antialiased`} style={{ cursor: "none" }}>
+    <html lang="en" className="" style={{ scrollBehavior: "smooth" }}>
+      <body className={`${dmSans.variable} font-sans antialiased`}>
         <CustomCursor />
         {children}
       </body>
