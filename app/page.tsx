@@ -16,7 +16,7 @@ export default function Home() {
           </p>
           <p>
             In the fall, I&apos;ll be making buttons as a Member of Technical Staff at
-            Yutori. I also write 25-100k angel investment cheques in seed and
+            Yutori. I also write 25-100k cheques through CRV as a scout in seed and
             pre-seed startups and help with hiring + growth.
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
