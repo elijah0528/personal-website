@@ -8,14 +8,14 @@ export default function Home() {
     <main className="flex w-full min-h-screen flex-col items-center font-sans">
       <div className="z-50 flex w-1/2 flex-col items-start gap-8 px-8 pt-32 pb-48 text-md">
         <section className="flex flex-col gap-8">
-          <h2 className="font-bold">Hi, I'm Elijah.</h2>
+          <h2 className="font-bold">Hi, I&apos;m Elijah.</h2>
           <p>
-            I’m a Machine Learning Engineer and VC. I spend my time between San
+            I&apos;m a Machine Learning Engineer and VC. I spend my time between San
             Francisco and Canada where I study Software Engineering at the
             University of Waterloo
           </p>
           <p>
-            In the fall, I’ll be making buttons as a Member of Technical Staff at
+            In the fall, I&apos;ll be making buttons as a Member of Technical Staff at
             Yutori. I also write 25-100k angel investment cheques in seed and
             pre-seed startups and help with hiring + growth.
           </p>
