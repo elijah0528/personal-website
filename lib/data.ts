@@ -22,7 +22,7 @@ export const experienceData: ExperienceCardProps[] = [
   {
     position: "Engineering Intern",
     company: "General Cybernetics",
-    dates: "Jan 2025 – April 2025",
+    dates: "July 2024 – August 2024",
     description: [
       "Designed incubators to convert kidney cells into dedifferentiated stem cells",
     ],
