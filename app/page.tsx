@@ -48,7 +48,7 @@ export default function Home() {
         </section>
 
         <section className="flex w-full flex-col gap-8">
-          <h1 className="text-xl font-bold text-accent-foreground">J*bs</h1>
+          <h1 className="text-xl font-bold text-accent-foreground">Work</h1>
           <div className="flex w-full flex-col gap-2">
             {experienceData.map((item, index) => (
               <ExperienceCard key={index} {...item} />
