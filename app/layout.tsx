@@ -9,6 +9,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://elijahkurien.com"),
   title: "Elijah Kurien",
   description: "My Portfolio",
   openGraph: {
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "Elijah Kurien",
     images: [
       {
-        url: "/preview.png", // Path to your OG image in the public folder
+        url: "/preview.png",
         width: 1200,
         height: 630,
       },
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     title: "Elijah Kurien",
     description: "Machine Learning Engineer and VC, building the future.",
     creator: "@ElijahKurien",
-    images: ["/preview.png"], // Must be an absolute URL in production
+    images: ["/preview.png"],
   },
 };
 
