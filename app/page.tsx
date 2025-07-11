@@ -5,8 +5,8 @@ import { experienceData, projectData } from "@/lib/data";
 
 export default function Home() {
   return (
-    <main className="flex w-full min-h-screen flex-col items-center font-sans">
-      <div className="z-50 flex w-1/2 flex-col items-start gap-8 px-8 pt-32 pb-48 text-md">
+    <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
+      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md  md:w-3/4 lg:w-1/2">
         <section className="flex flex-col gap-8">
           <h2 className="font-bold">Hi, I&apos;m Elijah.</h2>
           <p>
