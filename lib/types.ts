@@ -3,6 +3,7 @@ export interface ExperienceCardProps {
   company: string;
   dates: string;
   description: string[];
+  link: string;
 }
 
 export interface ProjectCardProps {
