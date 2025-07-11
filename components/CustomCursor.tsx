@@ -27,11 +27,11 @@ export default function CustomCursor() {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-24 h-24 rounded-full bg-gradient-to-r from-[#7BFF74] to-[#65F5FF] pointer-events-none z-10 transition-opacity duration-200 blur-md ${
+      className={`fixed top-0 left-0 w-16 h-16 rounded-full bg-gradient-to-r from-[#7BFF74] to-[#65F5FF] pointer-events-none z-10 transition-opacity duration-200 blur-md ${
         isVisible ? "opacity-70" : "opacity-0"
-      }`}
+      } hidden md:block`}
       style={{
-        transform: `translate(${position.x - 48}px, ${position.y - 48}px)`,
+        transform: `translate(${position.x - 32}px, ${position.y - 32}px)`,
         transition: "transform 0.1s ease-out",
       }}
     />
