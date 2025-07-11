@@ -26,6 +26,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Elijah Kurien",
+    description: "Machine Learning Engineer and VC, building the future.",
+    creator: "@ElijahKurien",
+    images: ["/preview.png"], // Must be an absolute URL in production
+  },
 };
 
 export default function RootLayout({
