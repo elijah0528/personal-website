@@ -12,3 +12,10 @@ export interface ProjectCardProps {
   description: string;
   link: string;
 }
+
+export interface BlogCardProps {
+  title: string;
+  date: string;
+  description: string;
+  slug: string;
+}
