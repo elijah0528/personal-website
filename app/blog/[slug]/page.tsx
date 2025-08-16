@@ -1,6 +1,8 @@
 import { getBlogPost, getAllBlogSlugs } from "@/lib/mdx";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import Image from "next/image";
+import FancyLink from "@/components/FancyLink";
 
 interface BlogPostProps {
   params: Promise<{ slug: string }>;
@@ -20,6 +22,22 @@ const components = {
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre className="bg-muted p-4 rounded-lg overflow-x-auto mb-4" {...props} />,
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => <blockquote className="border-l-4 border-accent pl-4 italic text-muted-foreground mb-4" {...props} />,
   a: (props: React.HTMLAttributes<HTMLAnchorElement>) => <a className="text-accent-foreground underline hover:text-accent-foreground/80 transition-colors" {...props} />,
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    if (!props.src || typeof props.src !== 'string') return null;
+    
+    return (
+      <Image 
+        src={props.src}
+        alt={props.alt || ""} 
+        width={800}
+        height={400}
+        className="w-full h-auto rounded-lg shadow-md my-6 block" 
+        style={{ objectFit: 'contain' }}
+        priority
+        unoptimized 
+      />
+    );
+  },
 };
 
 export async function generateStaticParams() {
@@ -40,6 +58,12 @@ export default async function BlogPost({ params }: BlogPostProps) {
   return (
     <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
       <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md md:w-3/4 lg:w-1/2">
+        <FancyLink 
+          href="/" 
+          className="text-accent-foreground/80 hover:text-accent-foreground transition-colors hover:!translate-x-0"
+        >
+          Back to Home
+        </FancyLink>
         <article className="flex w-full flex-col gap-8">
           <header className="flex flex-col gap-4">
             <h1 className="text-3xl font-bold text-accent-foreground">{post.title}</h1>
