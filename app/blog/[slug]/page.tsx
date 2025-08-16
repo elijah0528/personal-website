@@ -27,7 +27,7 @@ const components = {
     return <code className="font-mono text-sm" {...props} />;
   },
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className="bg-gradient-to-br from-muted to-muted/80 p-6 pt-12 rounded-xl overflow-x-auto mb-6 border border-border shadow-sm relative group" {...props}>
+    <pre className="bg-gradient-to-br from-muted/70 to-muted/60 backdrop-blur-lg p-6 pt-12 rounded-xl overflow-x-auto mb-6 border border-border/50 shadow-sm relative group" {...props}>
       <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="w-3 h-3 rounded-full bg-red-400 mr-2 inline-block"></div>
         <div className="w-3 h-3 rounded-full bg-yellow-400 mr-2 inline-block"></div>

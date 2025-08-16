@@ -1,75 +1,103 @@
 ---
-title: "Building a Semiconductor Fab in My Apartment"
-date: "December 2024"
-description: "How I turned my living space into a chip fabrication facility and what I learned about semiconductors."
+title: "Deconstructing Metal Kernels from OpenAI’s GPT-oss"
+date: "Aug 16, 2025"
+description: "Learn to write performant kernels in Metal Shader Langauge"
 slug: "building-semiconductor-fab-apartment"
 ---
 
+
+# Deconstructing Metal Kernels from OpenAI’s GPT-oss
+
+I wanted to learn Metal Shader Language, Apple’s framework to working with GPUs on any Apple Device. But compared to CUDA or ROCm, there’s not a lot of good resources to learn. So I’ve been learning from reading kernels written by engineers at OpenAI, Deepseek and other AI labs. This series of articles will targeted for those who know nothing about GPU programming to being able to write performant kernels for any use-case. For this article, we’ll be deconstructing some of the metal kernels written for GPT-oss to get a basic understanding of how these kernels improve performance.
+
+### Quick Overview of ML Inference
+
+OpenAI released two models – a 30B parameter model and a 120B parameter model. Traditional LLMs use every weight to perform computations. This is expensive in memory bandwidth and TFLOPs(Tera Floating Point Operations Per Second). GPT-oss models are Mixture of Experts (MoE) models. MoE models are unique because instead of having 1 large feed-forward block, they have 8 “expert” feedforward block trained on a subset of data to improve their performance on specific areas. When tokens are passed through, they are routed by a router to the optimal expert. Thus, rather than have all parameters be active, only a subset of the parameters are used in inference. For GPT-oss-120B, only 5.6B parameters are used and for GPT-oss-30B, only 3.1 parameters are used.
+
+As with all transformer models, they have attention blocks which allows the model to pick tokens to attend to. Traditional transformers use multi-headed attention, where each head computes a key(K), query(Q) and value(V) vector and then calculates attention. However, this can expensive so, researchers came up with multi-query attention, where each head computes a unique Q but shares all K and V. This sacrifices richness of representation for faster inference. However this can harm response quality. So, to compromise, researchers created group-query attention, a middle ground where heads are divided into group which share K and V but compute unique Q.
 ![Fab wallpaper](/blog_assets/wallpaper_test.jpg)
-
-# Building a Semiconductor Fab in My Apartment
-
-When I first told people I was building a semiconductor fabrication facility in my apartment, most thought I was joking. But here we are, several months later, with a working fab that can produce simple chips right from my living room.
-
-
-## The Challenge
-
-The semiconductor industry is incredibly complex and capital-intensive. Traditional fabs cost billions of dollars and require cleanroom facilities that rival those used for space missions. So how do you build one in a 500 square foot apartment?
-
-## The Approach
-
-The key insight was to focus on **simplicity over scale**. Instead of trying to replicate Intel's latest 3nm process, I focused on creating larger feature sizes that are still useful for learning and prototyping.
-
-### Equipment Setup
-
-Here's what I managed to fit into my apartment:
-
-- **Photolithography**: A modified UV lamp setup for pattern transfer
-- **Etching**: Chemical etching station with proper ventilation
-- **Deposition**: Sputtering setup for thin film deposition
-- **Inspection**: Modified microscope for quality control
 
 ### Process Control Code
 
 To automate the fab processes, I wrote control software in Python:
 
-```python
-class FabProcess:
-    def __init__(self, temperature=25, pressure=1013):
-        self.temperature = temperature  # Celsius
-        self.pressure = pressure        # mbar
-        self.process_log = []
-    
-    def photolithography_expose(self, exposure_time=30):
-        """UV exposure step for photolithography"""
-        print(f"Starting UV exposure for {exposure_time}s")
-        self.log_step("UV_EXPOSE", exposure_time)
-        
-        # Control UV lamp intensity
-        uv_intensity = self.calculate_dose(exposure_time)
-        return {"status": "complete", "dose": uv_intensity}
-    
-    def etch_silicon(self, etch_rate=10):
-        """Controlled silicon etching process"""
-        etch_depth = etch_rate * self.calculate_etch_time()
-        self.log_step("ETCH", etch_depth)
-        return etch_depth
-    
-    def log_step(self, process, value):
-        import datetime
-        timestamp = datetime.datetime.now()
-        self.process_log.append({
-            "time": timestamp,
-            "process": process,
-            "value": value,
-            "temp": self.temperature,
-            "pressure": self.pressure
-        })
+```cpp
+// This kernel is run by every thread
+[[max_total_threads_per_threadgroup(1024)]] // Max thread count
+kernel void gptoss_f32_bf16w_rmsnorm(
+    constant gptoss_rmsnorm_args& args [[ buffer(0) ]], 
+    const device float4* input [[ buffer(1) ]],
+    const device bfloat4* weights [[ buffer(2) ]],
+    // Float4 is a vector that holds 4 single precision floats
+    device float4* output [[ buffer(3) ]],
+    uint gid [[threadgroup_position_in_grid]],
+    uint tid [[thread_position_in_threadgroup]],
+    uint threadgroup_size [[ threads_per_threadgroup ]])
+{
+	// Assumes each SIMD group is 32 threads
+    const uint simdgroup_size = 32;
+    // Allocates shared memory big enough for 32 floats
+    threadgroup float threadgroup_buffer[32];
+	// Threadgroup handles 1 row of contiguous float4 values
+	// args.num_vecs is how many float4 elements belong to one row handled by one threadgrou
+	// Pointer arithmetic to move it to &input[gid * num_vecs]
+	// threadgroup_idx * numelems per threadgroup
+    input += gid * args.num_vecs;
+    output += gid * args.num_vecs;
+		
+	// Declares 4 floats initialized to 0
+    float4 sumsq4 = 0.0f;
+    // Loop until you've handled all the elements in your group
+    // Jump past total threads in group
+    for (uint i = tid; i < args.num_vecs; i += threadgroup_size) {
+		// Gets the 4 floats in input[i]
+        const float4 val = input[i];
+        // Fused multiply add acts by squaring each component and then adding it to sumsq4
+        sumsq4 = metal::fma(val, val, sumsq4);
+    }
 
-# Example usage
-fab = FabProcess(temperature=23.5, pressure=1012)
-result = fab.photolithography_expose(exposure_time=45)
-etch_depth = fab.etch_silicon(etch_rate=8.5)
+    // Tree-reduce sumsq within thread, then all-reduce within threadgroup.
+	// [x^2+y^2, z^2+w^2]
+    const float2 sumsq2 = sumsq4.xy + sumsq4.zw;
+    // x^2+y^2+z^2+w^2
+    float sumsq = sumsq2.x + sumsq2.y;
+    
+    // Warning: this all-reduce works only for simdgroup of 32 threads and threadgroup of 32*32=1024 threads.
+    // Sums across all lanes in the SIMD group and sums it
+    sumsq = metal::simd_sum(sumsq);
+    // Have one lane write to 
+    // For the first lane
+    if (metal::simd_is_first()) {
+		// (0...1024) // 32
+        const uint simdgroup_idx = tid / simdgroup_size;
+        // Results in threadgroup_buffer of size 32
+        threadgroup_buffer[simdgroup_idx] = sumsq;
+    }
+    // SIMD must write their partial sums to barrier
+    // This is barrier sync
+    metal::threadgroup_barrier(metal::mem_flags::mem_threadgroup);
+    // Get the simdgroup_tid (0...32)
+    const uint simdgroup_tid = tid % simdgroup_size;
+    // Get the simdgroup_tid (0...32)
+    sumsq = threadgroup_buffer[simdgroup_tid];
+	// Resum all the values using simdsum
+    sumsq = metal::simd_sum(sumsq);
+		
+	// Divide value by number of channels
+    const float avgsq = sumsq / args.num_channels;
+    // meta has precise::rsqrt and fast::rsqrt (precise is slower but safer)
+    // Epsilon is used for numerical stability
+    const float scale = metal::precise::rsqrt(avgsq + args.epsilon);
+    // Same loop condition as above
+    for (uint i = tid; i < args.num_vecs; i += threadgroup_size) {
+		    // Multiply each value by the normalization factor
+        const float4 val = input[i] * scale;
+        // Cast weights from bf16 to float4 on read
+        const float4 weight_val = static_cast<float4>(weights[i]);
+        // Output float4 * float4 multiplication
+        output[i] = val * weight_val;
+    }
+}
 ```
 
 This code helped me maintain consistent processing conditions and track each fabrication step.
