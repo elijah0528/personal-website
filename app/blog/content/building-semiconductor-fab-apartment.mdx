@@ -5,11 +5,12 @@ description: "How I turned my living space into a chip fabrication facility and 
 slug: "building-semiconductor-fab-apartment"
 ---
 
+![Fab wallpaper](/blog_assets/wallpaper_test.jpg)
+
 # Building a Semiconductor Fab in My Apartment
 
 When I first told people I was building a semiconductor fabrication facility in my apartment, most thought I was joking. But here we are, several months later, with a working fab that can produce simple chips right from my living room.
 
-![Fab wallpaper](/blog_assets/wallpaper_test.jpg)
 
 ## The Challenge
 
@@ -27,6 +28,51 @@ Here's what I managed to fit into my apartment:
 - **Etching**: Chemical etching station with proper ventilation
 - **Deposition**: Sputtering setup for thin film deposition
 - **Inspection**: Modified microscope for quality control
+
+### Process Control Code
+
+To automate the fab processes, I wrote control software in Python:
+
+```python
+class FabProcess:
+    def __init__(self, temperature=25, pressure=1013):
+        self.temperature = temperature  # Celsius
+        self.pressure = pressure        # mbar
+        self.process_log = []
+    
+    def photolithography_expose(self, exposure_time=30):
+        """UV exposure step for photolithography"""
+        print(f"Starting UV exposure for {exposure_time}s")
+        self.log_step("UV_EXPOSE", exposure_time)
+        
+        # Control UV lamp intensity
+        uv_intensity = self.calculate_dose(exposure_time)
+        return {"status": "complete", "dose": uv_intensity}
+    
+    def etch_silicon(self, etch_rate=10):
+        """Controlled silicon etching process"""
+        etch_depth = etch_rate * self.calculate_etch_time()
+        self.log_step("ETCH", etch_depth)
+        return etch_depth
+    
+    def log_step(self, process, value):
+        import datetime
+        timestamp = datetime.datetime.now()
+        self.process_log.append({
+            "time": timestamp,
+            "process": process,
+            "value": value,
+            "temp": self.temperature,
+            "pressure": self.pressure
+        })
+
+# Example usage
+fab = FabProcess(temperature=23.5, pressure=1012)
+result = fab.photolithography_expose(exposure_time=45)
+etch_depth = fab.etch_silicon(etch_rate=8.5)
+```
+
+This code helped me maintain consistent processing conditions and track each fabrication step.
 
 ## Results
 

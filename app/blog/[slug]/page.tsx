@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import FancyLink from "@/components/FancyLink";
+import rehypeHighlight from "rehype-highlight";
 
 interface BlogPostProps {
   params: Promise<{ slug: string }>;
@@ -18,8 +19,23 @@ const components = {
   li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="mb-1" {...props} />,
   strong: (props: React.HTMLAttributes<HTMLElement>) => <strong className="font-bold" {...props} />,
   em: (props: React.HTMLAttributes<HTMLElement>) => <em className="italic" {...props} />,
-  code: (props: React.HTMLAttributes<HTMLElement>) => <code className="bg-muted px-1 py-0.5 rounded text-sm font-mono" {...props} />,
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre className="bg-muted p-4 rounded-lg overflow-x-auto mb-4" {...props} />,
+  code: (props: React.HTMLAttributes<HTMLElement>) => {
+    const isInline = !props.className?.includes('language-');
+    if (isInline) {
+      return <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-accent-foreground border border-border" {...props} />;
+    }
+    return <code className="font-mono text-sm" {...props} />;
+  },
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre className="bg-gradient-to-br from-muted to-muted/80 p-6 pt-12 rounded-xl overflow-x-auto mb-6 border border-border shadow-sm relative group" {...props}>
+      <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="w-3 h-3 rounded-full bg-red-400 mr-2 inline-block"></div>
+        <div className="w-3 h-3 rounded-full bg-yellow-400 mr-2 inline-block"></div>
+        <div className="w-3 h-3 rounded-full bg-green-400 inline-block"></div>
+      </div>
+      {props.children}
+    </pre>
+  ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => <blockquote className="border-l-4 border-accent pl-4 italic text-muted-foreground mb-4" {...props} />,
   a: (props: React.HTMLAttributes<HTMLAnchorElement>) => <a className="text-accent-foreground underline hover:text-accent-foreground/80 transition-colors" {...props} />,
   img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
@@ -71,7 +87,15 @@ export default async function BlogPost({ params }: BlogPostProps) {
             <p className="text-accent-foreground text-lg">{post.description}</p>
           </header>
           <div className="prose prose-lg max-w-none">
-            <MDXRemote source={post.content} components={components} />
+            <MDXRemote 
+              source={post.content} 
+              components={components}
+              options={{
+                mdxOptions: {
+                  rehypePlugins: [rehypeHighlight],
+                },
+              }}
+            />
           </div>
         </article>
       </div>

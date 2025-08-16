@@ -137,3 +137,112 @@ button {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom syntax highlighting with colors */
+.hljs {
+  background: transparent !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  font-weight: 600 !important;
+  color: #8b5cf6 !important; /* Purple for keywords */
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #059669 !important; /* Green for strings */
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: #6b7280 !important; /* Gray for comments */
+  font-style: italic !important;
+}
+
+.hljs-number,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #dc2626 !important; /* Red for numbers/variables */
+}
+
+.hljs-function,
+.hljs-class,
+.hljs-title.class_,
+.hljs-title.function_ {
+  font-weight: 500 !important;
+  color: #2563eb !important; /* Blue for functions/classes */
+}
+
+.hljs-operator,
+.hljs-punctuation {
+  color: #374151 !important; /* Dark gray for operators */
+}
+
+/* Dark mode adjustments */
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-built_in,
+.dark .hljs-name,
+.dark .hljs-tag {
+  color: #a78bfa !important; /* Lighter purple for dark mode */
+}
+
+.dark .hljs-string,
+.dark .hljs-title,
+.dark .hljs-section,
+.dark .hljs-attribute,
+.dark .hljs-literal,
+.dark .hljs-template-tag,
+.dark .hljs-template-variable,
+.dark .hljs-type,
+.dark .hljs-addition {
+  color: #10b981 !important; /* Lighter green for dark mode */
+}
+
+.dark .hljs-comment,
+.dark .hljs-quote,
+.dark .hljs-deletion,
+.dark .hljs-meta {
+  color: #9ca3af !important; /* Lighter gray for dark mode */
+}
+
+.dark .hljs-number,
+.dark .hljs-regexp,
+.dark .hljs-symbol,
+.dark .hljs-variable,
+.dark .hljs-template-variable,
+.dark .hljs-link,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo {
+  color: #ef4444 !important; /* Lighter red for dark mode */
+}
+
+.dark .hljs-function,
+.dark .hljs-class,
+.dark .hljs-title.class_,
+.dark .hljs-title.function_ {
+  color: #3b82f6 !important; /* Lighter blue for dark mode */
+}
+
+.dark .hljs-operator,
+.dark .hljs-punctuation {
+  color: #d1d5db !important; /* Light gray for dark mode operators */
+}
