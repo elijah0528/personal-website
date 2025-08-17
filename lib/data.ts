@@ -43,6 +43,12 @@ export const experienceData: ExperienceCardProps[] = [
 
 export const projectData: ProjectCardProps[] = [
   {
+    title: "Shadow",
+    date: "August 2025",
+    description: "A background coding agent that runs on VMs allowing you to run code from anywhere asynchronously.",
+    link: "https://x.com/ElijahKurien/status/1955075209720967457",
+  },
+  {
     title: "Hacker Fab",
     date: "Sept 2024 – Present",
     description: "Built a semiconductor chip fab in my apartment",
@@ -55,22 +61,10 @@ export const projectData: ProjectCardProps[] = [
     link: "https://www.humansimulation.ai/",
   },
   {
-    title: "Engineer 4o",
-    date: "June 2024",
-    description: "Built a coding agent to automatically fix GitHub Issues before coding agents were cool",
-    link: "https://youtu.be/GGBevPRpQfg?si=JWa1EJCfahi9tj0j",
-  },
-  {
     title: "Ray Tracer",
     date: "August 2024",
     description: "Built a raytracer from scratch in Rust",
     link: "https://github.com/elijah0528/raytracer",
-  },
-  {
-    title: "Burrow",
-    date: "April 2024",
-    description: "Built a learning platform for students to create courses and knowledge graphs from anything they want",
-    link: "https://www.youtube.com/watch?v=xQFHZhmiJuA&t=1989s",
   },
 ];
 
