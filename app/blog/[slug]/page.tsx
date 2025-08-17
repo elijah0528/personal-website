@@ -13,7 +13,7 @@ const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-2xl font-bold text-accent-foreground mb-4" {...props} />,
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h2 className="text-xl font-bold text-accent-foreground mb-3 mt-8" {...props} />,
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h3 className="text-lg font-semibold text-accent-foreground mb-2 mt-6" {...props} />,
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="text-accent-foreground mb-4 leading-relaxed" {...props} />,
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="text-accent-foreground mb-8 leading-relaxed" {...props} />,
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="text-accent-foreground mb-4 ml-6 list-disc" {...props} />,
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => <ol className="text-accent-foreground mb-4 ml-6 list-decimal" {...props} />,
   li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="mb-1" {...props} />,
