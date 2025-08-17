@@ -86,7 +86,7 @@ Now we start to get into important some important GPU optimizations. sumsq4 is a
     metal::threadgroup_barrier(metal::mem_flags::mem_threadgroup);
 ```
 
-Now, all that is left to do is have the sum all threadgroup sums. We do this with `sim`d_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
+Now, all that is left to do is have the sum all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
 
 ```c++
 	// Get the simdgroup_tid (0...32)
@@ -112,7 +112,7 @@ Now, all that is left to do is have the sum all threadgroup sums. We do this wit
     }
 ```
 
-Now, all that is left to do is have the sum all threadgroup sums. We do this with simd_sum again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
+Now, all that is left to do is have the sum all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
 
 ```c++
 	// Get the simdgroup_tid (0...32)
