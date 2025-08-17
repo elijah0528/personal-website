@@ -1,4 +1,5 @@
-import { ExperienceCardProps, ProjectCardProps } from "./types";
+import { ExperienceCardProps, ProjectCardProps, BlogCardProps } from "./types";
+import { getAllBlogPosts } from "./mdx";
 
 export const experienceData: ExperienceCardProps[] = [
   {
@@ -66,3 +67,5 @@ export const projectData: ProjectCardProps[] = [
     link: "https://github.com/elijah0528/raytracer",
   },
 ];
+
+export const blogData: BlogCardProps[] = getAllBlogPosts();

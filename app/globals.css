@@ -137,3 +137,13 @@ button {
     @apply bg-background text-foreground;
   }
 }
+
+/* Simple syntax highlighting - code blocks only */
+.hljs-keyword { color: #8b5cf6; font-weight: 600; } /* Purple keywords */
+.hljs-string { color: #059669; } /* Green strings */
+.hljs-comment { color: #6b7280; font-style: italic; } /* Gray comments */
+.hljs-number { color: #dc2626; } /* Red numbers */
+.hljs-function { color: #2563eb; font-weight: 500; } /* Blue functions */
+.hljs-type { color: #8b5cf6; } /* Purple types */
+.hljs-built_in { color: #8b5cf6; font-weight: 600; } /* Purple built-ins */
+

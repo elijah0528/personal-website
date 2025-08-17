@@ -1,7 +1,8 @@
 import ExperienceCard from "@/components/ExperienceCard";
 import FancyLink from "@/components/FancyLink";
 import ProjectCard from "@/components/ProjectCard";
-import { experienceData, projectData } from "@/lib/data";
+import BlogCard from "@/components/BlogCard";
+import { experienceData, projectData, blogData } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -61,6 +62,15 @@ export default function Home() {
           <div className="flex w-full flex-col gap-2">
             {projectData.map((item, index) => (
               <ProjectCard key={index} {...item} />
+            ))}
+          </div>
+        </section>
+
+        <section className="flex w-full flex-col gap-8">
+          <h1 className="text-xl font-bold text-accent-foreground">Blog</h1>
+          <div className="flex w-full flex-col gap-2">
+            {blogData.map((item, index) => (
+              <BlogCard key={index} {...item} />
             ))}
           </div>
         </section>
