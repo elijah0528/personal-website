@@ -60,12 +60,6 @@ export const projectData: ProjectCardProps[] = [
     description: "Simulated the entire population of LA to optimize transit routes",
     link: "https://www.humansimulation.ai/",
   },
-  {
-    title: "Ray Tracer",
-    date: "August 2024",
-    description: "Built a raytracer from scratch in Rust",
-    link: "https://github.com/elijah0528/raytracer",
-  },
 ];
 
 export const blogData: BlogCardProps[] = getAllBlogPosts();
