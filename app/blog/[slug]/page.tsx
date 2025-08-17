@@ -22,7 +22,7 @@ const components = {
   code: (props: React.HTMLAttributes<HTMLElement>) => {
     const isInline = !props.className?.includes('language-');
     if (isInline) {
-      return <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-accent-foreground border border-border" {...props} />;
+      return <code className="bg-muted/60 mx-1 px-1 py-1 rounded text-sm font-mono text-accent-foreground font-medium border border-border" {...props} />;
     }
     return <code className="font-mono text-sm" {...props} />;
   },
