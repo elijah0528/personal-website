@@ -9,27 +9,27 @@ slug: "metal-from-scratch"
 
 # Deconstructing Metal Kernels from OpenAI’s GPT-oss
 
-I wanted to learn Metal Shader Language, Apple’s framework to working with GPUs on any Apple Device. But compared to CUDA or ROCm, there’s not a lot of good resources to learn. So I’ve been learning from reading kernels written by engineers at OpenAI, Deepseek and other AI labs. This series of articles will targeted for those who know nothing about GPU programming to being able to write performant kernels for any use-case. For this article, we’ll be deconstructing some of the metal kernels written for GPT-oss to get a basic understanding of how these kernels improve performance.
+I wanted to learn Metal Shader Language, Apple’s framework to working with GPUs on any Apple Device. However, compared to CUDA or ROCm, there are not many good resources available for learning. So I’ve been learning from reading kernels written by engineers at OpenAI, DeepSeek, and other AI labs. This series of articles will target those who know nothing about GPU programming to be able to write performant kernels for any use case. For this article, we’ll deconstruct the RMSNorm kernel written for GPT-oss to get a basic understanding of how these kernels improve performance.
 
 ### Quick Overview of ML Inference
 
-OpenAI released two models – a 30B parameter model and a 120B parameter model. Traditional LLMs use every weight to perform computations. This is expensive in memory bandwidth and TFLOPs(Tera Floating Point Operations Per Second). GPT-oss models are Mixture of Experts (MoE) models. MoE models are unique because instead of having 1 large feed-forward block, they have 8 “expert” feedforward block trained on a subset of data to improve their performance on specific areas. When tokens are passed through, they are routed by a router to the optimal expert. Thus, rather than have all parameters be active, only a subset of the parameters are used in inference. For GPT-oss-120B, only 5.6B parameters are used and for GPT-oss-30B, only 3.1 parameters are used.
+OpenAI released two models – a 30B parameter model and a 120B parameter model. Traditional LLMs use every weight to perform computations. This is expensive in memory bandwidth and TFLOPs(Tera Floating Point Operations Per Second). GPT-oss models are Mixture of Experts (MoE) models. MoE models are unique because instead of having 1 large feed-forward block, they have 8 “expert” feedforward block trained on a subset of data to improve their performance on specific areas. When tokens are passed through, they are routed by a router to the optimal expert. Thus, rather than have all parameters be active, only a subset of the parameters is used in inference. For GPT-oss-120B, only 5.6B parameters are used and for GPT-oss-30B, only 3.1 parameters are used.
 
-As with all transformer models, they have attention blocks which allows the model to pick tokens to attend to. Traditional transformers use multi-headed attention, where each head computes a key(K), query(Q) and value(V) vector and then calculates attention. However, this can expensive so, researchers came up with multi-query attention, where each head computes a unique Q but shares all K and V. This sacrifices richness of representation for faster inference. However this can harm response quality. So, to compromise, researchers created group-query attention, a middle ground where heads are divided into group which share K and V but compute unique Q.
+As with all transformer models, they have attention blocks that allow the model to pick tokens to attend to. Traditional transformers use multi-headed attention, where each head computes a key(K), query(Q), and value(V) vector and then calculates attention. However, this can be expensive, so researchers came up with multi-query attention, where each head computes a unique Q but shares all K and V. This sacrifices richness of representation for faster inference. However, this can harm response quality. So, to compromise, researchers created group-query attention, a middle ground where heads are divided into groups that share K and V but compute unique Q.
 
 ## RMSNorm
 
-RMSnorm is a simple algorithm that takes in a input tensor and weights tensor and normalizes after each sublayer in a transformer. It normalizes the input tensor by dividing by the root mean squared value. This normalizes all the values, in practice we want the ability to modify weights individually to scale up and down certain features in LLMs so we multiply the scaled vector by learned weights. 
+RMSnorm is a simple algorithm that takes in an input tensor and a weights tensor and normalizes after each sublayer in a transformer. It normalizes the input tensor by dividing by the root mean squared value. This normalizes all the values, in practice, we want the ability to modify weights individually to scale up and down certain features in LLMs, so we multiply the scaled vector by learned weights. 
 
-Prior to 2017, it was common practice to apply RMSNorm after blocks, now in most LLMs it is applied before blocks. This is because gradients struggle to propagate back in deeper models which makes models hard to train with out other tricks (learning-rate warmups, gradient clipping, etc.)
+Prior to 2017, it was common practice to apply RMSNorm after blocks; now, in most LLMs, it is applied before blocks. This is because gradients struggle to propagate back in deeper models, which makes models hard to train with out other tricks (learning-rate warmups, gradient clipping, etc.)
 
-Lets break down the code! The kernel provides a set of instructions executed by every thread on the GPU. Metal allows you to define the `max_threads_per_threadgroup` within the kernel.
+Let's break down the code! The kernel provides a set of instructions executed by every thread on the GPU. Metal allows you to define the `max_threads_per_threadgroup` within the kernel.
 
 ```c++
 [[max_total_threads_per_threadgroup(1024)]]
 kernel void gptoss_f32_bf16w_rmsnorm(
     // Arg syntax: <dtype> <name> <[[ buffer(idx) ]]>
-	// Constant: Stored in constant GPU memory (accessible by any part of GPU) 
+ // Constant: Stored in constant GPU memory (accessible by any part of the GPU) 
     constant gptoss_rmsnorm_args& args [[ buffer(0) ]],
     // float4* is a datatype containing 4 floats of 4 bytes (16 bytes total)
     const device float4* input [[ buffer(1) ]],
@@ -61,11 +61,11 @@ The body of the kernel starts by offsetting pointers to input and output to the 
 
 ```
 
-Now we start to get into important some important GPU optimizations. sumsq4 is a float4 with 4 values. Previously when we looped over and used fma on the 4 values in each iteration, each value got separated into its own bucket.  While we could loop over all values, this is slow. In GPU programming and distributed training, we prefer smarter reductions. We use tree-reduces where you recursively merge adjacent values into one until you’re left with on value. This is what is done in the following code to get sumsq. Since this kernel runs on each thread, we don’t have any way to have the threads to communicate with each other. This is where `metal::simd_sum(sumsq)` comes in allow these values to be summed up across a `simd_group`. Then, if the thread is the first in the SIMD group, that thread writes to memory to avoid redundant writes. The simgroup index is computed so that all `simd_groups` write to adjacent parts of memory for future processing. Finally, the sums must all be written to memory so `threadgroup_barrier` waits for all writes to finish processing before continuing to process instructions
+Now we start to get into some important GPU optimizations. sumsq4 is a float4 with 4 values. Previously, when we looped over and used fma on the 4 values in each iteration, each value got separated into its own bucket.  While we could loop over all values, this is slow. In GPU programming and distributed training, we prefer smarter reductions. We use tree-reduces where you recursively merge adjacent values into one until you’re left with on value. This is what is done in the following code to get sumsq. Since this kernel runs on each thread, we don’t have any way to have the threads to communicate with each other. This is where `metal::simd_sum(sumsq)` comes in allowing these values to be summed up across a `simd_group`. Then, if the thread is the first in the SIMD group, that thread writes to memory to avoid redundant writes. The simgroup index is computed so that all `simd_groups` write to adjacent parts of memory for future processing. Finally, the sums must all be written to memory, so `threadgroup_barrier` waits for all writes to finish processing before continuing to process instructions
 
 ```c++
-	// Tree-reduce sumsq within thread, then all-reduce within threadgroup.
-	// [x^2+y^2, z^2+w^2]
+ // Tree-reduce sumsq within thread, then all-reduce within threadgroup.
+ // [x^2+y^2, z^2+w^2]
     const float2 sumsq2 = sumsq4.xy + sumsq4.zw;
     // x^2+y^2+z^2+w^2
     float sumsq = sumsq2.x + sumsq2.y;
@@ -76,7 +76,7 @@ Now we start to get into important some important GPU optimizations. sumsq4 is a
     // Have one lane write to 
     // For the first lane
     if (metal::simd_is_first()) {
-		// (0...1024) // 32
+  // (0...1024) // 32
         const uint simdgroup_idx = tid / simdgroup_size;
         // Results in threadgroup_buffer of size 32
         threadgroup_buffer[simdgroup_idx] = sumsq;
@@ -86,24 +86,24 @@ Now we start to get into important some important GPU optimizations. sumsq4 is a
     metal::threadgroup_barrier(metal::mem_flags::mem_threadgroup);
 ```
 
-Now, all that is left to do is have the sum all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
+Now, all that is left to do is have the sum of all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor, and then multiply by our weights in w.
 
 ```c++
-	// Get the simdgroup_tid (0...32)
+ // Get the simdgroup_tid (0...32)
     const uint simdgroup_tid = tid % simdgroup_size;
     // Get the simdgroup_tid (0...32)
     sumsq = threadgroup_buffer[simdgroup_tid];
-	// Resum all the values using simdsum
+ // Resum all the values using simdsum
     sumsq = metal::simd_sum(sumsq);
-		
-	// Divide value by number of channels
+  
+ // Divide value by number of channels
     const float avgsq = sumsq / args.num_channels;
     // meta has precise::rsqrt and fast::rsqrt (precise is slower but safer)
     // Epsilon is used for numerical stability
     const float scale = metal::precise::rsqrt(avgsq + args.epsilon);
     // Same loop condition as above
     for (uint i = tid; i < args.num_vecs; i += threadgroup_size) {
-		    // Multiply each value by the normalization factor
+      // Multiply each value by the normalization factor
         const float4 val = input[i] * scale;
         // Cast weights from bf16 to float4 on read
         const float4 weight_val = static_cast<float4>(weights[i]);
@@ -112,24 +112,24 @@ Now, all that is left to do is have the sum all threadgroup sums. We do this wit
     }
 ```
 
-Now, all that is left to do is have the sum all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor then multiply by our weights in w.
+Now, all that is left to do is sum all threadgroup sums. We do this with `simd_sum` again and then divide  the total value we computed by the number of dimensions in the input tensor. Then we square root our sum, adding a small epsilon for numerical stability to get our scaling factor. Then each thread manipulates parts of the input to scale it by the scaling factor, and then multiply by our weights in w.
 
 ```c++
-	// Get the simdgroup_tid (0...32)
+ // Get the simdgroup_tid (0...32)
     const uint simdgroup_tid = tid % simdgroup_size;
     // Get the simdgroup_tid (0...32)
     sumsq = threadgroup_buffer[simdgroup_tid];
-	// Resum all the values using simdsum
+ // Resum all the values using simdsum
     sumsq = metal::simd_sum(sumsq);
-		
-	// Divide value by number of channels
+  
+ // Divide value by number of channels
     const float avgsq = sumsq / args.num_channels;
     // meta has precise::rsqrt and fast::rsqrt (precise is slower but safer)
     // Epsilon is used for numerical stability
     const float scale = metal::precise::rsqrt(avgsq + args.epsilon);
     // Same loop condition as above
     for (uint i = tid; i < args.num_vecs; i += threadgroup_size) {
-	    // Multiply each value by the normalization factor
+     // Multiply each value by the normalization factor
         const float4 val = input[i] * scale;
         // Cast weights from bf16 to float4 on read
         const float4 weight_val = static_cast<float4>(weights[i]);
