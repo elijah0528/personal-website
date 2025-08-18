@@ -5,8 +5,6 @@ description: "Learn to write performant kernels in Metal Shader Langauge"
 slug: "metal-from-scratch"
 ---
 
-*Note: Article is not finished yet*
-
 # Deconstructing Metal Kernels from OpenAI’s GPT-oss
 
 I wanted to learn Metal Shader Language, Apple’s framework to working with GPUs on any Apple Device. However, compared to CUDA or ROCm, there are not many good resources available for learning. So I’ve been learning from reading kernels written by engineers at OpenAI, DeepSeek, and other AI labs. This series of articles will target those who know nothing about GPU programming to be able to write performant kernels for any use case. For this article, we’ll deconstruct the RMSNorm kernel written for GPT-oss to get a basic understanding of how these kernels improve performance.
