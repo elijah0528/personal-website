@@ -45,7 +45,7 @@ export const projectData: ProjectCardProps[] = [
   {
     title: "Shadow",
     date: "August 2025",
-    description: "A background coding agent that runs on VMs allowing you to run code from anywhere asynchronously.",
+    description: "A background coding agent that runs on VMs allowing you to run code from anywhere asynchronously. 1.4k Github stars.",
     link: "https://x.com/ElijahKurien/status/1955075209720967457",
   },
   {
