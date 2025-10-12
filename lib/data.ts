@@ -7,7 +7,7 @@ export const experienceData: ExperienceCardProps[] = [
     company: "Yutori",
     dates: "September 2025 - Present",
     description: [
-      "Incoming Fall 2025",
+      "Scaling backend infrastructure for asynchronous web agents",
     ],
     link: "https://yutori.com",
   },
