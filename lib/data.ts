@@ -49,6 +49,12 @@ export const projectData: ProjectCardProps[] = [
     link: "https://x.com/ElijahKurien/status/1955075209720967457",
   },
   {
+    title: "Tacc",
+    date: "November 2025",
+    description: "A Tokenization-Aware Compression Codec to efficiently send LLM outputs over low-bandwidth networks",
+    link: "https://github.com/elijah0528/tacc",
+  },
+  {
     title: "Hacker Fab",
     date: "Sept 2024 – Present",
     description: "Built a semiconductor chip fab in my apartment",
