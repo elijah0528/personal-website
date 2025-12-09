@@ -11,14 +11,14 @@ export default function Home() {
           <p>
             Three years ago, I was doing neuroscience and epigenetics research at the University of Toronto.
             When I pivoted into software, I was instantly drawn towards building interpretable models because it was analagous to how we study the brain.
-            I've curated a list of my favourite blogs on mechanistic interpretability.
+            I&apos;ve curated a list of my favourite blogs on mechanistic interpretability.
           </p>
         </section>
         <section className="flex w-full flex-col gap-8">
           <div className="flex w-full flex-col gap-2">
             {interpPaperData.map((item, index) => (
               <ProjectCard key={index} {...item} />
-            ))}n
+            ))}
           </div>
         </section>
 
