@@ -1,7 +1,5 @@
-import ExperienceCard from "@/components/ExperienceCard";
 import ProjectCard from "@/components/ProjectCard";
-import BlogCard from "@/components/BlogCard";
-import { experienceData, projectData, blogData, interpPaperData } from "@/lib/data";
+import { interpPaperData } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -20,7 +18,7 @@ export default function Home() {
           <div className="flex w-full flex-col gap-2">
             {interpPaperData.map((item, index) => (
               <ProjectCard key={index} {...item} />
-            ))}
+            ))}n
           </div>
         </section>
 
