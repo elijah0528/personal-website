@@ -1,3 +1,4 @@
+import FancyLink from "@/components/FancyLink";
 import ProjectCard from "@/components/ProjectCard";
 import { interpPaperData } from "@/lib/data";
 
@@ -5,6 +6,12 @@ export default function Home() {
   return (
     <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
       <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md  md:w-3/4 lg:w-1/2">
+      <FancyLink 
+          href="/" 
+          className="text-accent-foreground/80 hover:text-accent-foreground transition-colors hover:!translate-x-0"
+        >
+          Back to Home
+      </FancyLink>
       <section className="flex flex-col gap-8">
           <h2 className="font-bold">Interpretability</h2>
 
