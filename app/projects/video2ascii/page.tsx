@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import FancyLink from "@/components/FancyLink";
 import Video2Ascii from "video2ascii";
-import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -25,6 +25,36 @@ function isWebGLAvailable() {
   }
 }
 
+function Video2AsciiWithDynamicColumns({
+  src,
+  ...props
+}: React.ComponentProps<typeof Video2Ascii>) {
+  const [numColumns, setNumColumns] = useState(100);
+
+  useEffect(() => {
+    const calculateColumns = () => {
+      const viewportWidth = window.innerWidth;
+      // Tune: At 1024px (laptop size), we want fewer columns (e.g., 64, not 100)
+      // Scale proportionally: columns = (width / 1024) * 64
+      const calculated = Math.floor((viewportWidth / 1024) * 64);
+      // Clamp between 32 and 100 for reasonable bounds
+      setNumColumns(Math.max(32, Math.min(100, calculated)));
+    };
+
+    // Calculate initial value
+    calculateColumns();
+
+    // Update on window resize
+    window.addEventListener("resize", calculateColumns);
+
+    return () => {
+      window.removeEventListener("resize", calculateColumns);
+    };
+  }, []);
+
+  return <Video2Ascii src={src} numColumns={numColumns} {...props} />;
+}
+
 export default function Video2ascii() {
   const [hasWebGL, setHasWebGL] = useState<boolean | null>(null);
 
@@ -32,22 +62,13 @@ export default function Video2ascii() {
     setHasWebGL(isWebGLAvailable());
   }, []);
 
+  // List your video files in the public/videos/ folder here:
   const videos = [
-    {
-      src: "https://cdn.generalintuition.com/media/video_nms.mp4",
-    },
-    {
-      src: "https://cdn.generalintuition.com/media/video_gta.mp4",
-    },
-    {
-      src: "https://cdn.generalintuition.com/media/video_rl.mp4",
-    },
-    {
-      src: "https://cdn.generalintuition.com/media/video_f.mp4",
-    },
-    {
-      src: "https://cdn.generalintuition.com/media/video_fs.mp4",
-    },
+    { src: "/videos/video_nms.mp4" },
+    { src: "/videos/video_gta.mp4" },
+    { src: "/videos/video_rl.mp4" },
+    { src: "/videos/video_f.mp4" },
+    { src: "/videos/video_fs.mp4" },
   ];
 
   return (
@@ -79,12 +100,12 @@ export default function Video2ascii() {
                         {hasWebGL === null ? (
                           <div className="w-full aspect-video rounded-lg bg-muted animate-pulse shadow-md" />
                         ) : hasWebGL ? (
-                          <Video2Ascii
-                            className="w-full h-auto overflow-hidden rounded-lg shadow-md"
+                          <Video2AsciiWithDynamicColumns
+                            className="w-full h-auto overflow-hidden rounded-lg shadow-md brightness-125"
                             src={video.src}
-                            numColumns={100}
                             colored={true}
-                            brightness={2.0}
+                            blend={30}
+                            brightness={2}
                             enableMouse={true}
                             enableRipple={true}
                             charset="standard"
