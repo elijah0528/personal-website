@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
     "github-markdown-css": "^5.8.1",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.525.0",
@@ -20,7 +21,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "rehype-highlight": "^7.0.2",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "video2ascii": "^1.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

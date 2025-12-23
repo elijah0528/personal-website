@@ -55,16 +55,16 @@ export const projectData: ProjectCardProps[] = [
     link: "https://github.com/elijah0528/tacc",
   },
   {
+    title: "Video2ascii",
+    date: "December 2025",
+    description: "WebGL-powered React Component for video to ASCII conversion",
+    link: "/projects/video2ascii",
+  },
+  {
     title: "Hacker Fab",
     date: "Sept 2024 – Present",
     description: "Built a semiconductor chip fab in my apartment",
     link: "https://www.waterloofab.com/",
-  },
-  {
-    title: "Skyline",
-    date: "June 2024",
-    description: "Simulated the entire population of LA to optimize transit routes",
-    link: "https://www.humansimulation.ai/",
   },
 ];
 
