@@ -49,16 +49,16 @@ export const projectData: ProjectCardProps[] = [
     link: "https://x.com/ElijahKurien/status/1955075209720967457",
   },
   {
+    title: "Video2ascii",
+    date: "December 2025",
+    description: "WebGL-powered React Component for video to ASCII conversion. 400 Github stars.",
+    link: "/projects/video2ascii",
+  },
+  {
     title: "Tacc",
     date: "November 2025",
     description: "A Tokenization-Aware Compression Codec to efficiently send LLM outputs over low-bandwidth networks",
     link: "https://github.com/elijah0528/tacc",
-  },
-  {
-    title: "Video2ascii",
-    date: "December 2025",
-    description: "WebGL-powered React Component for video to ASCII conversion",
-    link: "/projects/video2ascii",
   },
   {
     title: "Hacker Fab",
