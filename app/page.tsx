@@ -11,14 +11,12 @@ export default function Home() {
         <section className="flex flex-col gap-8">
           <h2 className="font-bold">Hi, I&apos;m Elijah.</h2>
           <p>
-            I&apos;m a Machine Learning Engineer and VC. I spend my time between San
-            Francisco and Canada where I study Software Engineering at the
-            University of Waterloo
-          </p>
-          <p>
-            I currently work on scaling infrastructure and reinforcement learning research as a Member of Technical Staff at
-            Yutori. I also write 25-100k cheques through CRV as a scout in seed and
-            pre-seed startups and help with hiring + growth.
+            I&apos;m a Software Engineering at Cursor. I enjoy building tasteful products and distributed systems. 
+            
+            <br />
+            <br />
+            I previously studied Software Engineering at the University of Waterloo.
+
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             <FancyLink

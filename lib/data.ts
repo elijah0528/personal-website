@@ -3,40 +3,40 @@ import { getAllBlogPosts } from "./mdx";
 
 export const experienceData: ExperienceCardProps[] = [
   {
+    position: "Software Engineer",
+    company: "Cursor",
+    dates: "January 2026 - Present",
+    description: [
+      "Building the future of AI-driven software development",
+    ],
+    link: "https://cursor.com",
+  },
+  {
     position: "Member of Technical Staff",
     company: "Yutori",
-    dates: "September 2025 - Present",
+    dates: "September 2025 - December 2025",
     description: [
-      "Scaling backend infrastructure for asynchronous web agents",
+      "Scaled backend infrastructure for asynchronous web agents",
     ],
     link: "https://yutori.com",
   },
   {
     position: "Software Engineering Intern",
     company: "Wispr Flow",
-    dates: "Jan 2025 – April 2025",
+    dates: "Jan 2025 - April 2025",
     description: [
       "Worked on optimizing inference on the ML team for 60,000+ users",
     ],
     link: "https://wisprflow.com",
   },
   {
-    position: "Engineering Intern",
-    company: "General Cybernetics",
-    dates: "July 2024 – August 2024",
+    position: "Scout",
+    company: "CRV",
+    dates: "July 2025 - Present",
     description: [
-      "Designed incubators to convert kidney cells into dedifferentiated stem cells",
+      "Investing 25-100k cheques into promising seed and pre-seed startups",
     ],
-    link: "https://generalcybernetics.org",
-  },
-  {
-    position: "Managing Partner",
-    company: "Dorm Room Fund",
-    dates: "Oct 2024 – Present",
-    description: [
-      "Leading Boston’s Dorm Room Fund team investing in student founders at the earliest stage",
-    ],
-    link: "https://dormroomfund.com",
+    link: "https://crv.com",
   },
 ];
 
