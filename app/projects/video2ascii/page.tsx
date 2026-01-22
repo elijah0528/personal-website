@@ -89,7 +89,7 @@ export default function Video2ascii() {
 
   return (
     <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
-      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md md:w-3/4 lg:w-1/2">
+      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-20 md:pt-32 pb-24 md:pb-48 text-md md:w-3/4 lg:w-1/2">
         <FancyLink
           href="/"
           className="text-accent-foreground/80 hover:text-accent-foreground transition-colors hover:translate-x-0!"
@@ -98,11 +98,11 @@ export default function Video2ascii() {
         </FancyLink>
         <article className="flex w-full flex-col gap-8">
           <header className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold text-accent-foreground">
+            <h1 className="text-2xl md:text-3xl font-bold text-accent-foreground">
               Video2ascii
             </h1>
             <p className="text-muted-foreground">December 2025</p>
-            <p className="text-accent-foreground text-lg">
+            <p className="text-accent-foreground text-base md:text-lg">
               WebGL-powered React Component for video to ASCII conversion
             </p>
           </header>

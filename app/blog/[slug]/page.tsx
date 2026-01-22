@@ -27,8 +27,8 @@ const components = {
     return <code className="font-mono text-sm" {...props} />;
   },
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className="bg-gradient-to-br from-muted/70 to-muted/60 backdrop-blur-lg p-6 pt-12 rounded-xl overflow-x-auto mb-6 border border-border/50 shadow-sm relative group" {...props}>
-      <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+    <pre className="bg-gradient-to-br from-muted/70 to-muted/60 backdrop-blur-lg p-4 pt-4 md:p-6 md:pt-12 rounded-xl overflow-x-auto mb-6 border border-border/50 shadow-sm relative group" {...props}>
+      <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">
         <div className="w-3 h-3 rounded-full bg-red-400 mr-2 inline-block"></div>
         <div className="w-3 h-3 rounded-full bg-yellow-400 mr-2 inline-block"></div>
         <div className="w-3 h-3 rounded-full bg-green-400 inline-block"></div>
@@ -73,7 +73,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
 
   return (
     <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
-      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md md:w-3/4 lg:w-1/2">
+      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-20 md:pt-32 pb-24 md:pb-48 text-md md:w-3/4 lg:w-1/2">
         <FancyLink 
           href="/" 
           className="text-accent-foreground/80 hover:text-accent-foreground transition-colors hover:!translate-x-0"
@@ -82,9 +82,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
         </FancyLink>
         <article className="flex w-full flex-col gap-8">
           <header className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold text-accent-foreground">{post.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-accent-foreground">{post.title}</h1>
             <p className="text-muted-foreground">{post.date}</p>
-            <p className="text-accent-foreground text-lg">{post.description}</p>
+            <p className="text-accent-foreground text-base md:text-lg">{post.description}</p>
           </header>
           <div className="prose prose-lg max-w-none">
             <MDXRemote 

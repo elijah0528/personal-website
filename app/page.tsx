@@ -7,7 +7,7 @@ import { experienceData, projectData, blogData } from "@/lib/data";
 export default function Home() {
   return (
     <main className="flex w-full min-h-screen flex-col items-center font-sans px-8">
-      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-32 pb-48 text-md  md:w-3/4 lg:w-1/2">
+      <div className="z-50 flex w-full flex-col items-start gap-8 px-4 pt-20 md:pt-32 pb-24 md:pb-48 text-md md:w-3/4 lg:w-1/2">
         <section className="flex flex-col gap-8">
           <h2 className="font-bold">Hi, I&apos;m Elijah.</h2>
           <p>
@@ -18,28 +18,28 @@ export default function Home() {
             I previously studied Software Engineering at the University of Waterloo.
 
           </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
             <FancyLink
               href="https://github.com/elijah0528"
-              className="text-accent-foreground/80"
+              className="text-accent-foreground/80 py-1"
             >
               GitHub
             </FancyLink>
             <FancyLink
               href="https://www.linkedin.com/in/ElijahKurien"
-              className="text-accent-foreground/80"
+              className="text-accent-foreground/80 py-1"
             >
               LinkedIn
             </FancyLink>
             <FancyLink
               href="https://x.com/ElijahKurien"
-              className="text-accent-foreground/80"
+              className="text-accent-foreground/80 py-1"
             >
               Twitter
             </FancyLink>
             <FancyLink
               href="mailto:elijahkurien05@gmail.com"
-              className="text-accent-foreground/80"
+              className="text-accent-foreground/80 py-1"
             >
               Email
             </FancyLink>
