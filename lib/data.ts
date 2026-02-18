@@ -5,7 +5,7 @@ export const experienceData: ExperienceCardProps[] = [
   {
     position: "Software Engineer",
     company: "Cursor",
-    dates: "January 2026 - Present",
+    dates: "January 2026 - February 2026",
     description: [
       "Building the future of AI-driven software development",
     ],

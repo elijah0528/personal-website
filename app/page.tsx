@@ -11,7 +11,7 @@ export default function Home() {
         <section className="flex flex-col gap-8">
           <h2 className="font-bold">Hi, I&apos;m Elijah.</h2>
           <p>
-            I&apos;m a Software Engineer at Cursor. I enjoy building tasteful products and distributed systems. Check out why I <FancyLink href="/blog/cursor" className="text-accent-foreground/80">joined Cursor</FancyLink>.
+            I enjoy building tasteful products and distributed systems.
             
             <br />
             <br />
